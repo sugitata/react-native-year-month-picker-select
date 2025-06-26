@@ -23,64 +23,80 @@ export type YearMonthPickerProps = {
   visible: boolean;
   startYear?: number;
   endYear?: number;
-  yearUnit?: string;
-  monthUnit?: string;
+  months?: { label: string; value: number }[];
   value?: YearMonth;
+  yearMonthOrder?: 'year-month' | 'month-year';
+  order?: 'asc' | 'desc';
+  cancelText?: string;
+  confirmText?: string;
   onClose: () => void;
   onConfirm: (value: YearMonth) => void;
-  title?: string;
-  order?: 'asc' | 'desc';
 };
 
 const getYears = (
   startYear: number,
   endYear: number,
   order: 'asc' | 'desc',
-) => {
+): { label: string; value: number }[] => {
   const years = [];
   if (order === 'asc') {
     for (let i = startYear; i <= endYear; i++) {
-      years.push(i);
+      years.push({ label: String(i), value: i });
     }
   } else {
     for (let i = endYear; i >= startYear; i--) {
-      years.push(i);
+      years.push({ label: String(i), value: i });
     }
   }
   return years;
 };
 
-const getMonths = () => {
-  return Array.from({ length: 12 }, (_, i) => i + 1);
-};
+export const defaultMonths = [
+  { label: 'January', value: 1 },
+  { label: 'February', value: 2 },
+  { label: 'March', value: 3 },
+  { label: 'April', value: 4 },
+  { label: 'May', value: 5 },
+  { label: 'June', value: 6 },
+  { label: 'July', value: 7 },
+  { label: 'August', value: 8 },
+  { label: 'September', value: 9 },
+  { label: 'October', value: 10 },
+  { label: 'November', value: 11 },
+  { label: 'December', value: 12 },
+];
 
 // @ts-ignore
 export const YearMonthPicker = forwardRef<any, YearMonthPickerProps>(
   (
     {
       visible,
+      months,
       startYear = new Date().getFullYear() - 50,
       endYear = new Date().getFullYear() + 10,
-      yearUnit,
-      monthUnit,
       value,
       order = 'desc',
+      cancelText = 'Cancel',
+      confirmText = 'Confirm',
+      yearMonthOrder = 'year-month',
       onClose,
       onConfirm,
     },
     ref,
   ) => {
-    const years = getYears(startYear, endYear, order);
-    const months = getMonths();
-    const initialYear = value?.year || years[0];
-    const initialMonth = value?.month || 1;
+    const yearsList = getYears(startYear, endYear, order);
+    const monthsList = months || defaultMonths;
+    const initialYear = value?.year || yearsList[0].value;
+    const initialMonth = value?.month || monthsList[0].value;
     const [selectedYear, setSelectedYear] = useState(initialYear);
     const [selectedMonth, setSelectedMonth] = useState(initialMonth);
 
     useEffect(() => {
-      setSelectedYear(value?.year || years[0]);
-      setSelectedMonth(value?.month || 1);
-    }, [value, visible, years]);
+      if (visible) {
+        setSelectedYear(value?.year || yearsList[0].value);
+        setSelectedMonth(value?.month || monthsList[0].value);
+      }
+    }, [value, visible]);
 
     useImperativeHandle(ref, () => ({
       reset: () => {
@@ -111,7 +127,7 @@ export const YearMonthPicker = forwardRef<any, YearMonthPickerProps>(
             <View style={styles.toolBar}>
               {/* @ts-ignore */}
               <TouchableOpacity style={styles.toolBarButton} onPress={onClose}>
-                <Text style={styles.toolBarButtonText}>キャンセル</Text>
+                <Text style={styles.toolBarButtonText}>{cancelText}</Text>
               </TouchableOpacity>
               {/* @ts-ignore */}
               <TouchableOpacity
@@ -120,41 +136,79 @@ export const YearMonthPicker = forwardRef<any, YearMonthPickerProps>(
                   onConfirm({ year: selectedYear, month: selectedMonth })
                 }
               >
-                <Text style={styles.toolBarButtonText}>完了</Text>
+                <Text style={styles.toolBarButtonText}>{confirmText}</Text>
               </TouchableOpacity>
             </View>
             {/* @ts-ignore */}
             <View style={styles.innerContainer}>
-              {/* @ts-ignore */}
-              <Picker
-                selectedValue={selectedYear}
-                style={styles.picker}
-                onValueChange={setSelectedYear}
-              >
-                {years.map((y) => (
-                  // @ts-ignore
-                  <Picker.Item
-                    key={y}
-                    label={`${y}${yearUnit || ''}`}
-                    value={y}
-                  />
-                ))}
-              </Picker>
-              {/* @ts-ignore */}
-              <Picker
-                selectedValue={selectedMonth}
-                style={styles.picker}
-                onValueChange={setSelectedMonth}
-              >
-                {months.map((m) => (
-                  // @ts-ignore
-                  <Picker.Item
-                    key={m}
-                    label={`${m}${monthUnit || ''}`}
-                    value={m}
-                  />
-                ))}
-              </Picker>
+              {yearMonthOrder === 'year-month' && (
+                <>
+                  {/* @ts-ignore */}
+                  <Picker
+                    selectedValue={selectedYear}
+                    style={styles.picker}
+                    onValueChange={setSelectedYear}
+                  >
+                    {yearsList.map((y) => (
+                      // @ts-ignore
+                      <Picker.Item
+                        key={y.value}
+                        label={y.label}
+                        value={y.value}
+                      />
+                    ))}
+                  </Picker>
+                  {/* @ts-ignore */}
+                  <Picker
+                    selectedValue={selectedMonth}
+                    style={styles.picker}
+                    onValueChange={setSelectedMonth}
+                  >
+                    {monthsList.map((m) => (
+                      // @ts-ignore
+                      <Picker.Item
+                        key={m.value}
+                        label={m.label}
+                        value={m.value}
+                      />
+                    ))}
+                  </Picker>
+                </>
+              )}
+              {yearMonthOrder === 'month-year' && (
+                <>
+                  {/* @ts-ignore */}
+                  <Picker
+                    selectedValue={selectedMonth}
+                    style={styles.picker}
+                    onValueChange={setSelectedMonth}
+                  >
+                    {monthsList.map((m) => (
+                      // @ts-ignore
+                      <Picker.Item
+                        key={m.value}
+                        label={m.label}
+                        value={m.value}
+                      />
+                    ))}
+                  </Picker>
+                  {/* @ts-ignore */}
+                  <Picker
+                    selectedValue={selectedYear}
+                    style={styles.picker}
+                    onValueChange={setSelectedYear}
+                  >
+                    {yearsList.map((y) => (
+                      // @ts-ignore
+                      <Picker.Item
+                        key={y.value}
+                        label={y.label}
+                        value={y.value}
+                      />
+                    ))}
+                  </Picker>
+                </>
+              )}
             </View>
           </TouchableOpacity>
         </TouchableOpacity>

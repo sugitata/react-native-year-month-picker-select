@@ -1,6 +1,6 @@
 {
   "name": "react-native-year-month-picker-select",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "description": "A simple year and month picker and select component for React Native",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

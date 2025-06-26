@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import type { ViewStyle, TextStyle } from 'react-native';
 import { TouchableOpacity, View, StyleSheet, Text } from 'react-native';
 import type { YearMonth, YearMonthPickerProps } from './YearMonthPicker';
-import YearMonthPicker from './YearMonthPicker';
+import YearMonthPicker, { defaultMonths } from './YearMonthPicker';
 
 export type YearMonthPickerSelectProps = {
   value?: YearMonth;
@@ -17,7 +17,8 @@ export type YearMonthPickerSelectProps = {
   startYear?: number;
   endYear?: number;
   yearUnit?: string;
-  monthUnit?: string;
+  months?: { label: string; value: number }[];
+  yearMonthOrder?: 'year-month' | 'month-year';
   icon?: ReactNode;
   iconRight?: ReactNode;
   iconPosition?: 'left' | 'right' | 'top' | 'bottom';
@@ -28,6 +29,27 @@ export type YearMonthPickerSelectProps = {
   errorStyle?: TextStyle;
   containerStyle?: ViewStyle;
   pickerProps?: Partial<YearMonthPickerProps>;
+};
+
+const getLabel = (value: YearMonth, yearUnit?: string, months?: { label: string; value: number }[], yearMonthOrder?: 'year-month' | 'month-year') => {
+  if (yearMonthOrder === 'year-month') {
+    return `${getYearLabel(value.year, yearUnit)} ${getMonthLabel(months || defaultMonths, value.month)}`;
+  }
+  return `${getMonthLabel(months || defaultMonths, value.month)} ${getYearLabel(value.year, yearUnit)}`;
+};
+
+const getMonthLabel = (months: { label: string; value: number }[] | undefined, value: number | undefined) => {
+  if (!months || value == null) return '';
+  const found = months.find((m) => m.value === value);
+  return found ? found.label : value;
+};
+
+const getYearLabel = (
+  year: number | undefined,
+  yearUnit?: string
+) => {
+  if (year == null) return '';
+  return `${year}${yearUnit || ''}`;
 };
 
 const YearMonthPickerSelect = ({
@@ -42,7 +64,8 @@ const YearMonthPickerSelect = ({
   startYear,
   endYear,
   yearUnit,
-  monthUnit,
+  months,
+  yearMonthOrder,
   icon,
   iconRight,
   iconPosition = 'right',
@@ -87,7 +110,7 @@ const YearMonthPickerSelect = ({
         style={[styles.inputText, !value && styles.placeholder, inputStyle]}
       >
         {value
-          ? `${value.year}${yearUnit || ''}${value.month}${monthUnit || ''}`
+          ? `${getLabel(value, yearUnit, months, yearMonthOrder)}`
           : placeholder}
         {required && (
           // @ts-ignore
@@ -121,8 +144,8 @@ const YearMonthPickerSelect = ({
         value={value}
         startYear={startYear}
         endYear={endYear}
-        yearUnit={yearUnit}
-        monthUnit={monthUnit}
+        months={months}
+        yearMonthOrder={yearMonthOrder}
         onClose={() => setVisible(false)}
         onConfirm={(v: YearMonth) => {
           onChange(v);
