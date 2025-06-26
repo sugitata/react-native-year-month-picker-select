@@ -1,6 +1,6 @@
 {
   "name": "react-native-year-month-picker-select",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple year and month picker and select component for React Native",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -57,7 +57,7 @@
     "vite": "^6.0.0"
   },
   "scripts": {
-    "build": "tsc --declaration --emitDeclarationOnly --esModuleInterop --jsx react --moduleResolution node --outDir lib --rootDir src --target ES2019",
+    "build": "tsc --esModuleInterop --jsx react --moduleResolution node --outDir lib --rootDir src --target ES2019",
     "prepare": "npm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
