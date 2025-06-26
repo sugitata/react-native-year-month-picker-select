@@ -1,0 +1,41 @@
+npm warn ERESOLVE overriding peer dependency
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: react-native@0.80.0
+npm error Found: @types/react@18.3.23
+npm error node_modules/@types/react
+npm error   peerOptional @types/react@"^19.0.0" from @react-native/virtualized-lists@0.80.0
+npm error   node_modules/react-native/node_modules/@react-native/virtualized-lists
+npm error     @react-native/virtualized-lists@"0.80.0" from react-native@0.80.0
+npm error     node_modules/react-native
+npm error       peer react-native@">=0.64.0" from the root project
+npm error       4 more (@testing-library/jest-native, ...)
+npm error
+npm error Could not resolve dependency:
+npm error peerOptional @types/react@"^19.1.0" from react-native@0.80.0
+npm error node_modules/react-native
+npm error   peer react-native@">=0.64.0" from the root project
+npm error   peer react-native@">=0.59" from @testing-library/jest-native@5.4.3
+npm error   node_modules/@testing-library/jest-native
+npm error     dev @testing-library/jest-native@"^5.4.3" from the root project
+npm error   3 more (@testing-library/react-native, ...)
+npm error
+npm error Conflicting peer dependency: @types/react@19.1.8
+npm error node_modules/@types/react
+npm error   peerOptional @types/react@"^19.1.0" from react-native@0.80.0
+npm error   node_modules/react-native
+npm error     peer react-native@">=0.64.0" from the root project
+npm error     peer react-native@">=0.59" from @testing-library/jest-native@5.4.3
+npm error     node_modules/@testing-library/jest-native
+npm error       dev @testing-library/jest-native@"^5.4.3" from the root project
+npm error     3 more (@testing-library/react-native, ...)
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error /Users/takanori.sugita/.npm/_logs/2025-06-25T10_48_01_825Z-eresolve-report.txt
+npm error A complete log of this run can be found in: /Users/takanori.sugita/.npm/_logs/2025-06-25T10_48_01_825Z-debug-0.log

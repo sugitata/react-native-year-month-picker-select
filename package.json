@@ -1,0 +1,65 @@
+{
+  "name": "react-native-year-month-picker-select",
+  "version": "1.0.0",
+  "description": "A simple year and month picker and select component for React Native",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sugitata/react-native-year-month-picker-select",
+    "directory": "react-native-year-month-picker-select"
+  },
+  "homepage": "https://github.com/sugitata/react-native-year-month-picker-select",
+  "keywords": [
+    "react-native",
+    "picker",
+    "year-month",
+    "date-picker",
+    "datetime-picker",
+    "year-month-picker",
+    "component",
+    "typescript"
+  ],
+  "author": "sugitata",
+  "license": "MIT",
+  "peerDependencies": {
+    "@react-native-picker/picker": ">=2.4.0",
+    "react": ">=17.0.0",
+    "react-native": ">=0.64.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@chromatic-com/storybook": "^3",
+    "@storybook/addon-actions": "^8.6.14",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-links": "^8.6.14",
+    "@storybook/addon-onboarding": "8.6.14",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/react": "^8.6.14",
+    "@storybook/react-vite": "8.6.14",
+    "@storybook/test": "^8.6.14",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^13.2.0",
+    "@types/react": "^19.0.0",
+    "@types/react-native": "^0.70.0",
+    "babel-jest": "^30.0.2",
+    "jest": "^30.0.3",
+    "react-native-web": "^0.20.0",
+    "storybook": "^8.6.14",
+    "ts-jest": "^29.4.0",
+    "typescript": "^5.0.0",
+    "vite": "^6.0.0"
+  },
+  "scripts": {
+    "build": "tsc --declaration --emitDeclarationOnly --esModuleInterop --jsx react --moduleResolution node --outDir lib --rootDir src --target ES2019",
+    "prepare": "npm run build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  }
+}
